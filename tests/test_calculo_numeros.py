@@ -44,5 +44,25 @@ class TestIngresoNumeroValido(unittest.TestCase):
         with self.assertRaises(NumeroDebeSerPositivo):
             ingrese_numero()
 
+    @patch('builtins.input', return_value='AAA')
+    def test_entrada_texto(self, mock_input):
+        with self.assertRaises(ValueError):
+            ingrese_numero()
+
+    @patch('builtins.input', return_value='!@#')
+    def test_entrada_simbolos(self, mock_input):
+        with self.assertRaises(ValueError):
+            ingrese_numero()
+
+    @patch('builtins.input', return_value='texto123')
+    def test_entrada_mixta(self, mock_input):
+        with self.assertRaises(ValueError):
+            ingrese_numero()
+
+    @patch('builtins.input', return_value=' ')
+    def test_entrada_espacio(self, mock_input):
+        with self.assertRaises(ValueError):
+            ingrese_numero()
+
 if __name__ == '__main__':
     unittest.main()
