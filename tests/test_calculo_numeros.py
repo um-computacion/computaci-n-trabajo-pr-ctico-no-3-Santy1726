@@ -24,7 +24,6 @@ class TestIngresoNumeroValido(unittest.TestCase):
     def test_ingreso_con_espacios(self, mock_input):
         numero = ingrese_numero()
         self.assertEqual(numero, 10)
- 
     @patch('builtins.input', return_value='-1')
     def test_menos_uno(self, mock_input):
         with self.assertRaises(NumeroDebeSerPositivo):
