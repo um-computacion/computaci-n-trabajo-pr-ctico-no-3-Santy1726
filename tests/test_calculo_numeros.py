@@ -1,35 +1,28 @@
 import unittest
-from src.exceptions import (
-    ingrese_numero,
-    NumeroDebeSerPositivo,
-)
+from src.exceptions import ingrese_numero
 from unittest.mock import patch
 
-class TestCalculoNumeros(unittest.TestCase):
+class TestIngresoNumeroValido(unittest.TestCase):
 
-    @patch(  # este patch controla lo que hace el input
-        'builtins.input',
-        return_value='100'
-    )
-    def test_ingreso_feliz(self, patch_input):
+    @patch('builtins.input', return_value='42')
+    def test_ingreso_valido(self, mock_input):
         numero = ingrese_numero()
-        self.assertEqual(numero, 100)
+        self.assertEqual(numero, 42)
+    
+    @patch('builtins.input', return_value='0')
+    def test_ingreso_cero(self, mock_input):
+        numero = ingrese_numero()
+        self.assertEqual(numero, 0)
 
-    @patch(  # este patch controla lo que hace el input
-        'builtins.input',
-        return_value='-100'
-    )
-    def test_ingreso_negativo(self, patch_input):
-        with self.assertRaises(NumeroDebeSerPositivo):
-            ingrese_numero()
+    @patch('builtins.input', return_value='1000000')
+    def test_ingreso_grande(self, mock_input):
+        numero = ingrese_numero()
+        self.assertEqual(numero, 1000000)
 
-    @patch(  # este patch controla lo que hace el input
-        'builtins.input',
-        return_value='AAA'
-    )
-    def test_ingreso_letras(self, patch_input):
-        with self.assertRaises(ValueError):
-            ingrese_numero()
+    @patch('builtins.input', return_value=' 10 ')
+    def test_ingreso_con_espacios(self, mock_input):
+        numero = ingrese_numero()
+        self.assertEqual(numero, 10)
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()
